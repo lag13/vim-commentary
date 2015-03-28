@@ -3,9 +3,36 @@
 This fork is based off of Tim Pope's wonderful plugin
 [vim-commentary](https://github.com/tpope/vim-commentary). I really have no
 complaints with his original plugin, I use it all the time and it works great.
-In using it though, I found myself wanting his comment block text object to
-stop when it reaches an empty line. So this fork modifies his text object to
-do just that.
+In using it though, I sometimes found myself wanting his comment block text object to
+stop when it reaches an empty line. This fork modifies his text object to
+do just that. To illustrate what I mean look at this code:
+
+```vim
+echo "hello world 1"
+" This is
+" the first comment block
+
+" This is
+" the second comment block
+echo "hello world 2"
+```
+
+In his original plugin if I typed 'dgc' and my cursor was on the first comment 
+block, then both comment blocks would be deleted resulting in this:
+
+```vim
+echo "hello world 1"
+echo "hello world 2"
+```
+
+Using this modified plugin would result in the code:
+
+```vim
+echo "hello world 1"
+" This is
+" the second comment block
+echo "hello world 2"
+```
 
 ## Description
 Comment stuff out.  Use `gcc` to comment out a line (takes a count),
