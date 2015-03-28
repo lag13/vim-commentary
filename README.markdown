@@ -1,5 +1,13 @@
 # commentary.vim
 
+This fork is based off of Tim Pope's wonderful plugin
+[vim-commentary](https://github.com/tpope/vim-commentary). I really have no
+complaints with his original plugin, I use it all the time and it works great.
+In using it though, I found myself wanting his comment block text object to
+stop when it reaches an empty line. So this fork modifies his text object to
+do just that.
+
+## Description
 Comment stuff out.  Use `gcc` to comment out a line (takes a count),
 `gc` to comment out the target of a motion (for example, `gcap` to
 comment out a paragraph), `gc` in visual mode to comment out the selection,
