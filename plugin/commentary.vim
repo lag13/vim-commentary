@@ -55,17 +55,17 @@ endfunction
 function! s:textobject(inner) abort
   let [l, r] = s:surroundings()
   let lnums = [line('.')+1, line('.')-2]
-  for [index, dir, bound, line] in [[0, -1, 1, ''], [1, 1, line('$'), '']]
-    while lnums[index] != bound && line ==# '' || !(stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
+  for [index, dir, bound, line] in [[0, -1, 1, l.r], [1, 1, line('$'), l.r]]
+    while lnums[index] != bound && !(stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
       let lnums[index] += dir
       let line = matchstr(getline(lnums[index]+dir),'\S.*\s\@<!')
     endwhile
   endfor
-  while (a:inner || lnums[1] != line('$')) && empty(getline(lnums[0]))
-    let lnums[0] += 1
+  while !a:inner && lnums[1] ==# line('$') && lnums[0] !=# 1 && empty(getline(lnums[0]-1))
+    let lnums[0] -= 1
   endwhile
-  while a:inner && empty(getline(lnums[1]))
-    let lnums[1] -= 1
+  while !a:inner && lnums[1] !=# line('$') && empty(getline(lnums[1]+1))
+      let lnums[1] += 1
   endwhile
   if lnums[0] <= lnums[1]
     execute 'normal! 'lnums[0].'GV'.lnums[1].'G'
