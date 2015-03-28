@@ -55,8 +55,8 @@ endfunction
 function! s:textobject(inner) abort
   let [l, r] = s:surroundings()
   let lnums = [line('.')+1, line('.')-2]
-  for [index, dir, bound, line] in [[0, -1, 1, l.r], [1, 1, line('$'), l.r]]
-    while lnums[index] != bound && !(stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
+  for [index, dir, line] in [[0, -1, l.r], [1, 1, l.r]]
+    while !(stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
       let lnums[index] += dir
       let line = matchstr(getline(lnums[index]+dir),'\S.*\s\@<!')
     endwhile
@@ -87,13 +87,6 @@ if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
   nmap gcc <Plug>CommentaryLine
   nmap cgc <Plug>ChangeCommentary
   nmap gcu <Plug>Commentary<Plug>Commentary
-endif
-
-if maparg('\\','n') ==# '' && maparg('\','n') ==# '' && get(g:, 'commentary_map_backslash', 1)
-  xmap \\  <Plug>Commentary:echomsg '\\ is deprecated. Use gc'<CR>
-  nmap \\  :echomsg '\\ is deprecated. Use gc'<CR><Plug>Commentary
-  nmap \\\ <Plug>CommentaryLine:echomsg '\\ is deprecated. Use gc'<CR>
-  nmap \\u <Plug>CommentaryUndo:echomsg '\\ is deprecated. Use gc'<CR>
 endif
 
 " vim:set et sw=2:
